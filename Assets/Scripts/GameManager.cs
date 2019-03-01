@@ -20,8 +20,9 @@ public class GameManager : MonoBehaviour
 
     public static GameManager me;
 
-    private int index = -1;
+    public int index = -1;
     public int good, bad;
+    public SpriteRenderer sprite;
 
     private void Awake()
     {
@@ -55,9 +56,12 @@ public class GameManager : MonoBehaviour
             Select();
         }
 
-        question.text = questions[index].question;
-        answer1.text = questions[index].answer1;
-        answer2.text = questions[index].answer2;
+        if (index != -1)
+        {
+            question.text = questions[index].question;
+            answer1.text = questions[index].answer1;
+            answer2.text = questions[index].answer2;
+        }
     }
 
     private void Select()
@@ -66,27 +70,55 @@ public class GameManager : MonoBehaviour
         {
             index = 1;
             CatFaces.me.Begin();
+            if(selection)
+            {
+                bad++;
+                sprite.sprite = CatFaces.me.badResponses[0];
+            }
+            else
+            {
+                good++;
+                sprite.sprite = CatFaces.me.goodResponses[0];
+            }
         }
-        else if(index < 6)
+        else if(index < 5)
         {
             if(selection == questions[index].goodAnswer)
             {
                 good++;
-                CatFaces.me.Good();
+                sprite.sprite = CatFaces.me.goodResponses[index];
             }
             else
             {
                 bad++;
-                CatFaces.me.Bad();
+                sprite.sprite = CatFaces.me.badResponses[index];
             }
             index++;
         }
         else
         {
+            if (selection == questions[index].goodAnswer)
+            {
+                good++;
+                sprite.sprite = CatFaces.me.goodResponses[index];
+            }
+            else
+            {
+                bad++;
+                sprite.sprite = CatFaces.me.badResponses[index];
+            }
+            index++;
             answer1.enabled = false;
             answer2.enabled = false;
-            question.text = good > bad ? goodEnding : badEnding;
-            CatFaces.me.renderer.sprite = good > bad ? goodFace : badFace;
+            question.text = bad > 2 ? badEnding : goodEnding;
+            CatFaces.me.renderer.sprite = bad > 2 ? badFace : goodFace;
         }
+    }
+
+    private void OnMouseDown()
+    {
+        answer1.color = unselected;
+        answer2.color = unselected;
+        Destroy(gameObject);
     }
 }

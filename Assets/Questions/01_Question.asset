@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: 01_Question
   m_EditorClassIdentifier: 
   question: '"What do you like on yr pizza?"'
-  answer1: Veggis
+  answer1: Veggies
   answer2: Anchovies
   goodAnswer: 1
