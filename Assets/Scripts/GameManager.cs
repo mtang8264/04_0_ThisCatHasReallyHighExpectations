@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
             Select();
         }
 
-        if (index != -1)
+        if (index != -1 && index < 6)
         {
             question.text = questions[index].question;
             answer1.text = questions[index].answer1;
